@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="info.lostred.blog.mapper.UserMapper">
-
+    <select id="selectPageVo" resultType="userVo">
+        select user.id, user.status_id, user.username, user.password, user.name, user.sex, user.email,
+        user.gmt_create,
+        user.gmt_modified, user.deleted,
+        status.name as status
+        from user
+        left join status on user.status_id = status.id
+        <include refid="where"/>
+    </select>
+    <sql id="where">
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
+    </sql>
 </mapper>

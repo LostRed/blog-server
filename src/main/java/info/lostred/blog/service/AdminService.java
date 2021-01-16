@@ -1,7 +1,10 @@
 package info.lostred.blog.service;
 
-import info.lostred.blog.entity.Admin;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import info.lostred.blog.entity.Admin;
+import info.lostred.blog.vo.AdminVo;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-01-16
  */
 public interface AdminService extends IService<Admin> {
-
+    IPage<AdminVo> pageVo(IPage<AdminVo> page, Wrapper<AdminVo> queryWrapper);
 }

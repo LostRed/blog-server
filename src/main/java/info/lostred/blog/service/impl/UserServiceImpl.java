@@ -1,10 +1,15 @@
 package info.lostred.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import info.lostred.blog.entity.User;
 import info.lostred.blog.mapper.UserMapper;
 import info.lostred.blog.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import info.lostred.blog.vo.UserVo;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -16,5 +21,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Resource
+    private UserMapper userMapper;
 
+    @Override
+    public IPage<UserVo> pageVo(IPage<UserVo> page, Wrapper<UserVo> queryWrapper) {
+        return userMapper.selectPageVo(page, queryWrapper);
+    }
 }

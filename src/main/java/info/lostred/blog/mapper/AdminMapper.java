@@ -1,8 +1,13 @@
 package info.lostred.blog.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import info.lostred.blog.entity.Admin;
+import info.lostred.blog.vo.AdminVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,5 +19,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AdminMapper extends BaseMapper<Admin> {
-
+    <E extends IPage<AdminVo>> E selectPageVo(E page, @Param(Constants.WRAPPER) Wrapper<AdminVo> queryWrapper);
 }

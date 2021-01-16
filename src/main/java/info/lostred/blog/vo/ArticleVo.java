@@ -13,7 +13,7 @@ public class ArticleVo extends Article {
 
     @Override
     public String toString() {
-        return super.toString() + "+ ArticleVo(" +
+        return super.toString() + "+ArticleVo(" +
                 "catalogue='" + catalogue + '\'' +
                 ", author='" + author + '\'' +
                 ", status='" + status + '\'' +

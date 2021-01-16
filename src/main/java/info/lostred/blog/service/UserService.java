@@ -1,7 +1,10 @@
 package info.lostred.blog.service;
 
-import info.lostred.blog.entity.User;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import info.lostred.blog.entity.User;
+import info.lostred.blog.vo.UserVo;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-01-16
  */
 public interface UserService extends IService<User> {
-
+    IPage<UserVo> pageVo(IPage<UserVo> page, Wrapper<UserVo> queryWrapper);
 }
