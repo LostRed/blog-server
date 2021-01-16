@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.lostred.blog.mapper.ArticleMapper">
+    <select id="selectPageVo" resultType="articleVo">
+        select article.id,
+        article.status_id,
+        article.user_id,
+        article.catalogue_id,
+        article.title,
+        article.content,
+        article.hot,
+        article.gmt_create,
+        article.gmt_modified,
+        article.deleted,
+        user.username as author,
+        status.name as status
+        from article
+        left join catalogue on article.catalogue_id = catalogue.id
+        left join user on article.user_id = user.id
+        left join status on article.status_id = status.id
+        <include refid="where"/>
+    </select>
+    <sql id="where">
+        <if test="ew != null">
+            ${ew.customSqlSegment}
+        </if>
+    </sql>
+</mapper>

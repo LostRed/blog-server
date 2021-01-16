@@ -1,0 +1,8 @@
+# 配置Spring
+spring:
+  # 应用名称
+  application:
+    name: blog
+  # 选择配置
+  profiles:
+    active: dev
