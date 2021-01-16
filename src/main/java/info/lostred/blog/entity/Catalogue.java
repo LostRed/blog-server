@@ -2,11 +2,12 @@ package info.lostred.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -27,11 +28,11 @@ public class Catalogue implements Serializable {
       @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "名称")
-    private String name;
-
     @ApiModelProperty(value = "状态id")
     private Integer statusId;
+
+    @ApiModelProperty(value = "名称")
+    private String name;
 
 
 }
