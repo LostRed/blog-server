@@ -41,7 +41,7 @@ public class StatementController {
     }
 
     @ApiOperation("查看用户注册量")
-    @ApiImplicitParam(name = "type", value = "时期", required = true)
+    @ApiImplicitParam(name = "period", value = "时期", required = true)
     @GetMapping("/register")
     public Response<Map<String, Object>> register(String period) {
         return Response.ok();
@@ -54,16 +54,16 @@ public class StatementController {
     }
 
     @ApiOperation("查看博客发布数量")
-    @ApiImplicitParam(name = "type", value = "时期", required = true)
+    @ApiImplicitParam(name = "period", value = "时期", required = true)
     @GetMapping("/release")
     public Response<Map<String, Object>> release(String period) {
         return Response.ok();
     }
 
-    @ApiOperation("查看博客浏览次数")
-    @ApiImplicitParam(name = "type", value = "时期", required = true)
-    @GetMapping("/browse")
-    public Response<Map<String, Object>> browse(String period) {
+    @ApiOperation("查看博客热度")
+    @ApiImplicitParam(name = "period", value = "时期", required = true)
+    @GetMapping("/hot")
+    public Response<Map<String, Object>> hot(String period) {
         return Response.ok();
     }
 }

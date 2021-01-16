@@ -15,7 +15,6 @@ spring:
 
 # 配置MyBatis-Plus
 mybatis-plus:
-  mapper-locations: classpath:com/great/incubator/backend/mapper/xml/*Mapper.xml #指定映射文件
   configuration:
     #开启驼峰命名
     map-underscore-to-camel-case: true

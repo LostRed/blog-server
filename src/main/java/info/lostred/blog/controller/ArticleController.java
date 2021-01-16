@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import info.lostred.blog.annotation.LogUser;
 import info.lostred.blog.dto.Response;
-import info.lostred.blog.entity.Admin;
 import info.lostred.blog.entity.Article;
 import info.lostred.blog.service.ArticleService;
 import info.lostred.blog.vo.ArticleVo;
@@ -47,7 +46,7 @@ public class ArticleController {
     @ApiOperation("修改文章")
     @LogUser("修改文章")
     @PostMapping("/")
-    public Response<Admin> updateAdmin(@RequestBody Article article) {
+    public Response<Article> updateAdmin(@RequestBody Article article) {
         if (!articleService.updateById(article)) {
             return Response.serviceError("修改失败");
         }
@@ -58,7 +57,7 @@ public class ArticleController {
     @ApiImplicitParam(name = "id", value = "文章id", required = true)
     @LogUser("删除文章")
     @DeleteMapping("/{id}")
-    public Response<Admin> removeAdmin(@PathVariable Integer id) {
+    public Response<Article> removeAdmin(@PathVariable Integer id) {
         if (!articleService.removeById(id)) {
             return Response.serviceError("删除失败");
         }

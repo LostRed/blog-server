@@ -1,8 +1,8 @@
-# 配置Spring
+# 閰嶇疆Spring
 spring:
-  # 应用名称
+  # 搴旂敤鍚嶇О
   application:
     name: blog
-  # 选择配置
+  # 閫夋嫨閰嶇疆
   profiles:
     active: dev
