@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -19,12 +20,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * <p>用户名和密码验证通知</p>
+ * <p>用户名和密码校验切面</p>
  *
  * @author lostred
  * @since 2021-01-16
  */
 @Aspect
+@Order(0)
 @Component
 public class ValidateAdvice {
     @Pointcut("@annotation(info.lostred.blog.annotation.Validate)")
@@ -50,29 +52,29 @@ public class ValidateAdvice {
     public Object validateAccount(ProceedingJoinPoint joinPoint) {
         try {
             Object[] args = joinPoint.getArgs();
-            Map<String, Object> fieldsName = getFieldsName(joinPoint);
-            for (String key : fieldsName.keySet()) {
+            Map<String, Object> fieldNames = getFieldsName(joinPoint);
+            for (String key : fieldNames.keySet()) {
                 switch (key) {
                     case "username":
-                        String username = (String) fieldsName.get(key);
+                        String username = (String) fieldNames.get(key);
                         if (ValidateUtils.illegalUsername(username)) {
                             throw new Throwable("用户名不符合规范");
                         }
                         break;
                     case "password":
-                        String password = (String) fieldsName.get(key);
+                        String password = (String) fieldNames.get(key);
                         if (ValidateUtils.illegalPassword(password)) {
                             throw new Throwable("密码不符合规范");
                         }
                         break;
                     case "email":
-                        String email = (String) fieldsName.get(key);
+                        String email = (String) fieldNames.get(key);
                         if (ValidateUtils.illegalEmail(email)) {
                             throw new Throwable("邮箱不符合规范");
                         }
                         break;
                     case "admin":
-                        Admin admin = (Admin) fieldsName.get(key);
+                        Admin admin = (Admin) fieldNames.get(key);
                         if (ValidateUtils.illegalUsername(admin.getUsername())) {
                             throw new Throwable("用户名不符合规范");
                         } else if (ValidateUtils.illegalPassword(admin.getPassword())) {
@@ -80,7 +82,7 @@ public class ValidateAdvice {
                         }
                         break;
                     case "user":
-                        User user = (User) fieldsName.get(key);
+                        User user = (User) fieldNames.get(key);
                         if (ValidateUtils.illegalUsername(user.getUsername())) {
                             throw new Throwable("用户名不符合规范");
                         } else if (ValidateUtils.illegalPassword(user.getPassword())) {

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
+import info.lostred.blog.annotation.LogAdmin;
+import info.lostred.blog.annotation.LogUser;
 import info.lostred.blog.annotation.Validate;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.User;
@@ -41,22 +43,25 @@ public class UserController {
             @ApiImplicitParam(name = "captcha", value = "验证码", required = true)
     })
     @Validate
+    @LogUser("登录")
     @GetMapping("/login")
     public Response<User> login(@ApiIgnore HttpSession session, String username, String password, String captcha) {
         if (captcha == null || !captcha.equals(session.getAttribute("captcha"))) {
             return Response.verifyError("验证码错误");
         }
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
-        User user = userService.getBaseMapper().selectOne(queryWrapper);
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        User user = userService.getBaseMapper().selectOne(wrapper);
         if (user == null || !user.getPassword().equals(password)) {
             return Response.verifyError("账号或密码错误");
         }
+        session.setAttribute("user", user);
         return Response.ok(user);
     }
 
     @ApiOperation("新增用户")
     @Validate
+    @LogAdmin("新增用户")
     @PutMapping("/")
     public Response<User> saveUser(@RequestBody User user) {
         if (!userService.save(user)) {
@@ -67,6 +72,7 @@ public class UserController {
 
     @ApiOperation("修改用户")
     @Validate
+    @LogAdmin("修改用户")
     @PostMapping("/")
     public Response<User> updateUser(@RequestBody User user) {
         if (!userService.updateById(user)) {
@@ -77,6 +83,7 @@ public class UserController {
 
     @ApiOperation("删除用户")
     @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @LogAdmin("删除用户")
     @DeleteMapping("/{id}")
     public Response<User> removeUser(@PathVariable Integer id) {
         if (!userService.removeById(id)) {

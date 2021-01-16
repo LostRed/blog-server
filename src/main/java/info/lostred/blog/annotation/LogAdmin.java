@@ -8,14 +8,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <p>开启记录日志的注解</p>
+ * <p>开启管理员日志的注解</p>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RecordLog {
+public @interface LogAdmin {
     @AliasFor("event")
-    String value();
+    String value() default "";
 
     @AliasFor("value")
-    String event();
+    String event() default "";
 }

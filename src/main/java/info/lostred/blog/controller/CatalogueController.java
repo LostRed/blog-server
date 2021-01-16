@@ -3,6 +3,7 @@ package info.lostred.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mysql.cj.util.StringUtils;
+import info.lostred.blog.annotation.LogAdmin;
 import info.lostred.blog.annotation.Validate;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Catalogue;
@@ -32,6 +33,7 @@ public class CatalogueController {
 
     @ApiOperation("新增文章类型")
     @Validate
+    @LogAdmin("新增文章类型")
     @PutMapping("/")
     public Response<Catalogue> saveCatalogue(@RequestBody Catalogue catalogue) {
         if (!catalogueService.save(catalogue)) {
@@ -42,6 +44,7 @@ public class CatalogueController {
 
     @ApiOperation("修改文章类型")
     @Validate
+    @LogAdmin("修改文章类型")
     @PostMapping("/")
     public Response<Catalogue> updateCatalogue(@RequestBody Catalogue catalogue) {
         if (!catalogueService.updateById(catalogue)) {
@@ -52,6 +55,7 @@ public class CatalogueController {
 
     @ApiOperation("删除文章类型")
     @ApiImplicitParam(name = "id", value = "文章类型id", required = true)
+    @LogAdmin("删除文章类型")
     @DeleteMapping("/{id}")
     public Response<Catalogue> removeCatalogue(@PathVariable Integer id) {
         if (!catalogueService.removeById(id)) {
