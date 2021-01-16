@@ -65,6 +65,12 @@ public class ValidateAdvice {
                             throw new Throwable("密码不符合规范");
                         }
                         break;
+                    case "email":
+                        String email = (String) fieldsName.get(key);
+                        if (ValidateUtils.illegalEmail(email)) {
+                            throw new Throwable("邮箱不符合规范");
+                        }
+                        break;
                     case "admin":
                         Admin admin = (Admin) fieldsName.get(key);
                         if (ValidateUtils.illegalUsername(admin.getUsername())) {

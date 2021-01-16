@@ -61,7 +61,7 @@ public class ArticleController {
         return Response.ok();
     }
 
-    @ApiOperation("条件翻页查询文章")
+    @ApiOperation("条件翻页查询文章列表")
     @GetMapping("/")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "文章标题"),

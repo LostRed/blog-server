@@ -83,7 +83,7 @@ public class UserController {
         return Response.ok();
     }
 
-    @ApiOperation("条件翻页查询用户")
+    @ApiOperation("条件翻页查询用户列表")
     @GetMapping("/")
     @ApiImplicitParam(name = "username", value = "用户名")
     public Response<IPage<User>> listUser(String username) {

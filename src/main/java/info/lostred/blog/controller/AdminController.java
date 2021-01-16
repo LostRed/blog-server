@@ -43,9 +43,9 @@ public class AdminController {
     @Validate
     @GetMapping("/login")
     public Response<Admin> login(@ApiIgnore HttpSession session, String username, String password, String captcha) {
-//            if (captcha == null || !captcha.equals(session.getAttribute("captcha"))) {
-//                return Response.verifyError("验证码错误");
-//            }
+        if (captcha == null || !captcha.equals(session.getAttribute("captcha"))) {
+            return Response.verifyError("验证码错误");
+        }
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
         Admin admin = adminService.getBaseMapper().selectOne(queryWrapper);
@@ -85,7 +85,7 @@ public class AdminController {
         return Response.ok();
     }
 
-    @ApiOperation("条件翻页查询管理员")
+    @ApiOperation("条件翻页查询管理员列表")
     @GetMapping("/")
     @ApiImplicitParam(name = "username", value = "用户名")
     public Response<IPage<Admin>> listAdmin(String username) {
