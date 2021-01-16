@@ -6,6 +6,7 @@ import com.mysql.cj.util.StringUtils;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Status;
 import info.lostred.blog.service.StatusService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import java.util.List;
  * @author lostred
  * @since 2021-01-16
  */
+@Api(tags = "状态模块")
 @RestController
 @RequestMapping("/blog/status")
 public class StatusController {

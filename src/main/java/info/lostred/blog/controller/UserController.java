@@ -9,6 +9,7 @@ import info.lostred.blog.annotation.Validate;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.User;
 import info.lostred.blog.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpSession;
  * @author lostred
  * @since 2021-01-16
  */
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping("/blog/user")
 public class UserController {

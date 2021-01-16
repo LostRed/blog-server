@@ -10,6 +10,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
  * @since 2021-01-16
  */
 public class ValidateUtils {
+    private static final String USERNAME_REGEX = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+    private static final String PASSWORD_REGEX = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
+    private static final String EMAIL_REGEX = "^([A-Za-z0-9_\\-\\.])+@([A-Za-z0-9_\\-])+\\.([A-Za-z]{2,4})$";
+
     /**
      * 用户名校验
      *
@@ -19,8 +23,10 @@ public class ValidateUtils {
     public static boolean illegalUsername(String username) {
         if (StringUtils.isBlank(username)) {
             return true;
+        } else if (username.matches(USERNAME_REGEX)) {
+            return true;
         }
-        return username.length() < 6 || username.length() > 8;
+        return username.length() < 6 || username.length() > 16;
     }
 
     /**
@@ -32,8 +38,7 @@ public class ValidateUtils {
     public static boolean illegalPassword(String password) {
         if (StringUtils.isBlank(password)) {
             return true;
-        }
-        return password.length() < 6 || password.length() > 8;
+        } else return !password.matches(PASSWORD_REGEX);
     }
 
     /**
@@ -46,6 +51,6 @@ public class ValidateUtils {
         if (StringUtils.isBlank(email)) {
             return true;
         }
-        return !email.matches("^([A-Za-z0-9_\\-\\.])+@([A-Za-z0-9_\\-])+\\.([A-Za-z]{2,4})$");
+        return !email.matches(EMAIL_REGEX);
     }
 }

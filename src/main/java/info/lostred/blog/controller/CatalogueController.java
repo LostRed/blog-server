@@ -7,6 +7,7 @@ import info.lostred.blog.annotation.Validate;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Catalogue;
 import info.lostred.blog.service.CatalogueService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import java.util.List;
  * @author lostred
  * @since 2021-01-16
  */
+@Api(tags = "文章类型模块")
 @RestController
 @RequestMapping("/blog/catalogue")
 public class CatalogueController {
