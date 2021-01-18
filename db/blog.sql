@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/1/16 20:41:50                           */
+/* Created on:     2021/1/18 8:58:44                            */
 /*==============================================================*/
 
 
@@ -77,8 +77,8 @@ alter table article comment '文章';
 create table catalogue
 (
    id                   int not null auto_increment comment 'id',
-   status_id            int comment '状态id',
    name                 varchar(10) comment '名称',
+   status_id            int comment '状态id',
    primary key (id)
 );
 
@@ -107,6 +107,7 @@ create table user
    status_id            int comment '状态id',
    username             varchar(30) comment '用户名',
    password             varchar(30) comment '密码',
+   avatar               varchar(100) comment '头像',
    name                 varchar(10) comment '姓名',
    sex                  int comment '性别',
    email                varchar(50) comment '邮箱',

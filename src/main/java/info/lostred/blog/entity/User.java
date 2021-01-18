@@ -1,16 +1,13 @@
 package info.lostred.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -42,6 +39,9 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "姓名")
     private String name;
+
+    @ApiModelProperty(value = "头像")
+    private String avatar;
 
     @ApiModelProperty(value = "性别")
     private Integer sex;
