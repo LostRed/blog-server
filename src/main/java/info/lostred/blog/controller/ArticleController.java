@@ -68,9 +68,11 @@ public class ArticleController {
     @GetMapping("/")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "文章标题"),
-            @ApiImplicitParam(name = "author", value = "作者")
+            @ApiImplicitParam(name = "author", value = "作者"),
+            @ApiImplicitParam(name = "current", value = "当前页"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数")
     })
-    public Response<IPage<ArticleVo>> listArticle(String title, String author) {
+    public Response<IPage<ArticleVo>> listArticle(String title, String author, Long current, Long size) {
         QueryWrapper<ArticleVo> wrapper = new QueryWrapper<>();
         wrapper.eq("status.name", "启用");
         if (!StringUtils.isBlank(title)) {
@@ -79,7 +81,7 @@ public class ArticleController {
         if (!StringUtils.isBlank(author)) {
             wrapper.like("user.username", author);
         }
-        IPage<ArticleVo> page = articleService.pageVo(new Page<>(), wrapper);
+        IPage<ArticleVo> page = articleService.pageVo(new Page<>(current, size), wrapper);
         return Response.ok(page);
     }
 }

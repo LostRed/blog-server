@@ -94,13 +94,17 @@ public class UserController {
 
     @ApiOperation("条件翻页查询用户列表")
     @GetMapping("/")
-    @ApiImplicitParam(name = "username", value = "用户名")
-    public Response<IPage<User>> listUser(String username) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名"),
+            @ApiImplicitParam(name = "current", value = "当前页"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数")
+    })
+    public Response<IPage<User>> listUser(String username, Long current, Long size) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isNullOrEmpty(username)) {
             wrapper.like("username", username);
         }
-        IPage<User> page = userService.page(new Page<>(), wrapper);
+        IPage<User> page = userService.page(new Page<>(current, size), wrapper);
         return Response.ok(page);
     }
 }

@@ -93,13 +93,17 @@ public class AdminController {
 
     @ApiOperation("条件翻页查询管理员列表")
     @GetMapping("/")
-    @ApiImplicitParam(name = "username", value = "用户名")
-    public Response<IPage<Admin>> listAdmin(String username) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名"),
+            @ApiImplicitParam(name = "current", value = "当前页"),
+            @ApiImplicitParam(name = "size", value = "每页显示条数")
+    })
+    public Response<IPage<Admin>> listAdmin(String username, Long current, Long size) {
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();
         if (!StringUtils.isNullOrEmpty(username)) {
             wrapper.like("username", username);
         }
-        IPage<Admin> page = adminService.page(new Page<>(), wrapper);
+        IPage<Admin> page = adminService.page(new Page<>(current, size), wrapper);
         return Response.ok(page);
     }
 }
