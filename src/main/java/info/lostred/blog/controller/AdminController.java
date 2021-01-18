@@ -95,8 +95,8 @@ public class AdminController {
     @GetMapping("/")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名"),
-            @ApiImplicitParam(name = "current", value = "当前页"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数")
+            @ApiImplicitParam(name = "current", value = "当前页", required = true),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
     })
     public Response<IPage<Admin>> listAdmin(String username, Long current, Long size) {
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();

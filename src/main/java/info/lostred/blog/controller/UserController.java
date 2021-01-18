@@ -96,8 +96,8 @@ public class UserController {
     @GetMapping("/")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名"),
-            @ApiImplicitParam(name = "current", value = "当前页"),
-            @ApiImplicitParam(name = "size", value = "每页显示条数")
+            @ApiImplicitParam(name = "current", value = "当前页", required = true),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
     })
     public Response<IPage<User>> listUser(String username, Long current, Long size) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
