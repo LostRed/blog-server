@@ -90,6 +90,9 @@ public class ArticleController {
     @ApiImplicitParam(name = "id", value = "文章id", required = true)
     public Response<ArticleVo> getArticle(@PathVariable Integer id) {
         ArticleVo articleVo = articleService.getVoById(id);
+        if (articleVo == null) {
+            return Response.serviceError("未查询到结果");
+        }
         return Response.ok(articleVo);
     }
 }

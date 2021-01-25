@@ -7,13 +7,16 @@
                article.user_id,
                article.catalogue_id,
                article.title,
+               article.cover,
                article.content,
                article.hot,
                article.gmt_create,
                article.gmt_modified,
                article.deleted,
-               user.username as author,
-               status.name   as status
+               user.username  as author,
+               user.avatar  as avatar,
+               status.name    as status,
+               catalogue.name as catalogue
         from article
                  left join catalogue on article.catalogue_id = catalogue.id
                  left join user on article.user_id = user.id

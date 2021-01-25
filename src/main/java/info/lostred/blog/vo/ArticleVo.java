@@ -14,6 +14,8 @@ public class ArticleVo extends Article {
     private String catalogue;
     @ApiModelProperty(value = "作者")
     private String author;
+    @ApiModelProperty(value = "头像")
+    private String avatar;
     @ApiModelProperty(value = "状态名")
     private String status;
 
@@ -22,6 +24,7 @@ public class ArticleVo extends Article {
         return super.toString() + " + ArticleVo(" +
                 "catalogue='" + catalogue + '\'' +
                 ", author='" + author + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", status='" + status + '\'' +
                 ')';
     }
