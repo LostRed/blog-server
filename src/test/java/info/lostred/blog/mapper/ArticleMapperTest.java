@@ -27,6 +27,11 @@ class ArticleMapperTest {
     }
 
     @Test
+    void selectVoById() {
+        System.out.println(articleMapper.selectVoById(1));
+    }
+
+    @Test
     void selectPageVo() {
         QueryWrapper<ArticleVo> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("article.title", "测");

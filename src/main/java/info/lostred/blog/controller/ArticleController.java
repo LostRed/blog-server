@@ -84,4 +84,12 @@ public class ArticleController {
         IPage<ArticleVo> page = articleService.pageVo(new Page<>(current, size), wrapper);
         return Response.ok(page);
     }
+
+    @ApiOperation("根据id查询文章")
+    @GetMapping("/{id}")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true)
+    public Response<ArticleVo> getArticle(@PathVariable Integer id) {
+        ArticleVo articleVo = articleService.getVoById(id);
+        return Response.ok(articleVo);
+    }
 }

@@ -26,6 +26,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleMapper articleMapper;
 
     @Override
+    public ArticleVo getVoById(Integer id) {
+        return articleMapper.selectVoById(id);
+    }
+
+    @Override
     public IPage<ArticleVo> pageVo(IPage<ArticleVo> page, Wrapper<ArticleVo> queryWrapper) {
         return articleMapper.selectPageVo(new Page<>(), queryWrapper);
     }

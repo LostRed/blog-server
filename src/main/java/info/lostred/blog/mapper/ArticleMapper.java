@@ -19,5 +19,7 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
+    ArticleVo selectVoById(@Param("id") Integer id);
+
     <E extends IPage<ArticleVo>> E selectPageVo(E page, @Param(Constants.WRAPPER) Wrapper<ArticleVo> queryWrapper);
 }

@@ -14,6 +14,11 @@ class ArticleServiceTest {
     ArticleService articleService;
 
     @Test
+    void getVoById() {
+        System.out.println(articleService.getVoById(1));
+    }
+
+    @Test
     void pageVo() {
         QueryWrapper<ArticleVo> wrapper = new QueryWrapper<>();
         wrapper.like("article.title", "测")
