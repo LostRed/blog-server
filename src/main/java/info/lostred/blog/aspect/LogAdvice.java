@@ -1,6 +1,7 @@
 package info.lostred.blog.aspect;
 
 import info.lostred.blog.annotation.LogAdmin;
+import info.lostred.blog.annotation.LogUser;
 import info.lostred.blog.entity.Admin;
 import info.lostred.blog.entity.AdminLog;
 import info.lostred.blog.entity.User;
@@ -75,7 +76,7 @@ public class LogAdvice {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         //获取切入点所在的方法
         Method method = signature.getMethod();
-        String event = method.getAnnotation(LogAdmin.class).value();
+        String event = method.getAnnotation(LogUser.class).value();
         //创建日志
         UserLog userLog = new UserLog();
         userLog.setEvent(event);

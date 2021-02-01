@@ -40,6 +40,9 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "标题")
     private String title;
 
+    @ApiModelProperty(value = "摘要")
+    private String precis;
+
     @ApiModelProperty(value = "封面")
     private String cover;
 
@@ -47,6 +50,7 @@ public class Article implements Serializable {
     private String content;
 
     @ApiModelProperty(value = "热度")
+    @TableField(fill = FieldFill.INSERT)
     private Integer hot;
 
     @ApiModelProperty(value = "创建时间")

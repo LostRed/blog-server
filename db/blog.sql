@@ -60,6 +60,7 @@ create table article
    user_id              int comment '用户id',
    catalogue_id         int comment '文章类型id',
    title                varchar(100) comment '标题',
+   precis               varchar(200) comment '摘要',
    cover                varchar(500) comment '封面',
    content              text comment '内容',
    hot                  int comment '热度',

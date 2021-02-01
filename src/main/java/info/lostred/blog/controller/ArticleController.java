@@ -36,7 +36,7 @@ public class ArticleController {
     @ApiOperation("新增文章")
     @LogUser("新增文章")
     @PutMapping("/")
-    public Response<Article> saveAdmin(@RequestBody Article article) {
+    public Response<Article> saveArticle(@RequestBody Article article) {
         if (!articleService.save(article)) {
             return Response.serviceError("新增失败");
         }
@@ -46,7 +46,7 @@ public class ArticleController {
     @ApiOperation("修改文章")
     @LogUser("修改文章")
     @PostMapping("/")
-    public Response<Article> updateAdmin(@RequestBody Article article) {
+    public Response<Article> updateArticle(@RequestBody Article article) {
         if (!articleService.updateById(article)) {
             return Response.serviceError("修改失败");
         }
@@ -57,7 +57,7 @@ public class ArticleController {
     @ApiImplicitParam(name = "id", value = "文章id", required = true)
     @LogUser("删除文章")
     @DeleteMapping("/{id}")
-    public Response<Article> removeAdmin(@PathVariable Integer id) {
+    public Response<Article> removeArticle(@PathVariable Integer id) {
         if (!articleService.removeById(id)) {
             return Response.serviceError("删除失败");
         }

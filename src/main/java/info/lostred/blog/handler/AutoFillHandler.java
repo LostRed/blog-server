@@ -28,6 +28,7 @@ public class AutoFillHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "gmtCreate", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "gmtModified", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "deleted", Integer.class, 0);
+        this.strictInsertFill(metaObject, "hot", Integer.class, 0);
         //在这里添加需要自动填充的字段
     }
 

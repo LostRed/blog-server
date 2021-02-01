@@ -13,9 +13,10 @@ VALUES (1, 1, 'lostred', '123456', now(), now(), 0);
 /*==============================================================*/
 /* Table: article                                               */
 /*==============================================================*/
-INSERT INTO `article` (`id`, `status_id`, `user_id`, `catalogue_id`, `title`, `cover`, `content`, `hot`, `gmt_create`,
+INSERT INTO `article` (`id`, `status_id`, `user_id`, `catalogue_id`, `title`, `precis`, `cover`, `content`, `hot`,
+                       `gmt_create`,
                        `gmt_modified`, `deleted`)
-VALUES (1, 1, 1, 1, '测试文章1', 'url路径', '这是一个测试内容文字', 0, now(), now(), 0);
+VALUES (1, 1, 1, 1, '测试文章1', '这是一个测试内容文字', 'example.jpg', '这是一个测试内容文字', 0, now(), now(), 0);
 
 /*==============================================================*/
 /* Table: catalogue                                             */
@@ -39,4 +40,4 @@ VALUES (2, '禁用', '使用状态', 0);
 /*==============================================================*/
 INSERT INTO `user` (`id`, `status_id`, `username`, `password`, `avatar`, `name`, `sex`, `email`, `gmt_create`,
                     `gmt_modified`, `deleted`)
-VALUES (1, 1, 'lostred', '123456', 'url', '邓路炜', 1, 'lostred@outlook.com', now(), now(), 0);
+VALUES (1, 1, 'lostred', '123456', 'avatar.jpg', '邓路炜', 1, 'lostred@outlook.com', now(), now(), 0);
