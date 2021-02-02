@@ -15,6 +15,8 @@ import info.lostred.blog.vo.ArticleVo;
  * @since 2021-01-16
  */
 public interface ArticleService extends IService<Article> {
+    boolean updateHot(Integer id);
+
     ArticleVo getVoById(Integer id);
 
     IPage<ArticleVo> pageVo(IPage<ArticleVo> page, Wrapper<ArticleVo> queryWrapper);

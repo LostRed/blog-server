@@ -3,8 +3,8 @@ package info.lostred.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mysql.cj.util.StringUtils;
 import info.lostred.blog.annotation.LogUser;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Article;
@@ -37,10 +37,12 @@ public class ArticleController {
     @LogUser("新增文章")
     @PutMapping("/")
     public Response<Article> saveArticle(@RequestBody Article article) {
+        assert article != null;
+        article.setUserId(1);// 测试用，生产请注释
         if (!articleService.save(article)) {
             return Response.serviceError("新增失败");
         }
-        return Response.ok();
+        return Response.ok(article);
     }
 
     @ApiOperation("修改文章")
@@ -48,6 +50,15 @@ public class ArticleController {
     @PostMapping("/")
     public Response<Article> updateArticle(@RequestBody Article article) {
         if (!articleService.updateById(article)) {
+            return Response.serviceError("修改失败");
+        }
+        return Response.ok();
+    }
+
+    @ApiOperation("浏览文章")
+    @PostMapping("/{id}")
+    public Response<Article> browseArticle(@PathVariable Integer id) {
+        if (!articleService.updateHot(id)) {
             return Response.serviceError("修改失败");
         }
         return Response.ok();
@@ -69,17 +80,23 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "文章标题"),
             @ApiImplicitParam(name = "author", value = "作者"),
+            @ApiImplicitParam(name = "column", value = "排序字段"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
     })
-    public Response<IPage<ArticleVo>> listArticle(String title, String author, Long current, Long size) {
+    public Response<IPage<ArticleVo>> listArticle(String title, String author, String column, Long current, Long size) {
         QueryWrapper<ArticleVo> wrapper = new QueryWrapper<>();
         wrapper.eq("status.name", "启用");
-        if (!StringUtils.isBlank(title)) {
+        if (!StringUtils.isNullOrEmpty(title)) {
             wrapper.like("article.title", title);
         }
-        if (!StringUtils.isBlank(author)) {
+        if (!StringUtils.isNullOrEmpty(author)) {
             wrapper.like("user.username", author);
+        }
+        if (!StringUtils.isNullOrEmpty(column)) {
+            wrapper.orderByDesc(column);
+        } else {
+            wrapper.orderByDesc("hot");// 默认按照热度排序
         }
         IPage<ArticleVo> page = articleService.pageVo(new Page<>(current, size), wrapper);
         return Response.ok(page);

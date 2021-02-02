@@ -26,6 +26,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleMapper articleMapper;
 
     @Override
+    public boolean updateHot(Integer id) {
+        Article article = articleMapper.selectById(id);
+        article.setHot(article.getHot() + 1);
+        int result = articleMapper.updateById(article);
+        return result > 0;
+    }
+
+    @Override
     public ArticleVo getVoById(Integer id) {
         return articleMapper.selectVoById(id);
     }
