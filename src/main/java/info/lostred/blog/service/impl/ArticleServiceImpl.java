@@ -2,11 +2,10 @@ package info.lostred.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import info.lostred.blog.entity.Article;
 import info.lostred.blog.mapper.ArticleMapper;
 import info.lostred.blog.service.ArticleService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import info.lostred.blog.vo.ArticleVo;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +39,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public IPage<ArticleVo> pageVo(IPage<ArticleVo> page, Wrapper<ArticleVo> queryWrapper) {
-        return articleMapper.selectPageVo(new Page<>(), queryWrapper);
+        return articleMapper.selectPageVo(page, queryWrapper);
     }
 }
