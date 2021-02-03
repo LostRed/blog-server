@@ -12,6 +12,7 @@ spring:
     username: blog
     password: 123456
     url: jdbc:mysql://lostred.info:3306/blog?useUnicode=true&characterEncoding=utf8
+
 # 配置MyBatis-Plus
 mybatis-plus:
   configuration:
@@ -27,8 +28,10 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为0)
   # 别名
   type-aliases-package: info.lostred.blog.entity,info.lostred.blog.vo
-# 静态资源对外暴露的访问路径
+
+# 文件上传
 file:
+  # 静态资源访问虚拟路径
   staticAccessPath: /upload/**
   # 文件上传目录
   uploadFolder: C:/upload/

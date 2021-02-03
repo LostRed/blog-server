@@ -12,6 +12,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
 
+/**
+ * <p>文件上传配置</p>
+ *
+ * @author lostred
+ * @since 2021-02-03
+ */
 @Configuration
 @EnableConfigurationProperties(UploadFileProperties.class)
 public class UploadFileConfig implements WebMvcConfigurer {
@@ -19,7 +25,8 @@ public class UploadFileConfig implements WebMvcConfigurer {
     private UploadFileProperties uploadFileProperties;
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(uploadFileProperties.getStaticAccessPath()).addResourceLocations("file:/" + uploadFileProperties.getUploadFolder());
+        registry.addResourceHandler(uploadFileProperties.getStaticAccessPath())
+                .addResourceLocations("file:/" + uploadFileProperties.getUploadFolder());
     }
 
     @Bean
