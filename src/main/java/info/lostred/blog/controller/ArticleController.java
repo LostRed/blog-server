@@ -39,7 +39,7 @@ public class ArticleController {
     public Response<Article> saveArticle(@RequestBody Article article) {
         assert article != null;
         article.setUserId(1);// 测试用，生产请注释
-        if (!articleService.save(article)) {
+        if (!articleService.saveOrUpdate(article)) {
             return Response.serviceError("新增失败");
         }
         return Response.ok(article);

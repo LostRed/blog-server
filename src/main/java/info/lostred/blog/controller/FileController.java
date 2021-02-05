@@ -3,14 +3,13 @@ package info.lostred.blog.controller;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.properties.UploadFileProperties;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -24,7 +23,7 @@ import java.util.UUID;
  * @author lostred
  * @since 2021-01-16
  */
-@Api(tags = "文件上传模块")
+@Api(tags = "文件模块")
 @RestController
 @RequestMapping("/blog/file")
 public class FileController {
@@ -33,7 +32,7 @@ public class FileController {
 
     @ApiOperation("上传文件")
     @PostMapping("/upload")
-    public Response<Object> upload(@RequestPart("file") MultipartFile file) {
+    public Response<Object> upload(@RequestPart("file") MultipartFile file, HttpServletRequest request) {
         if (file == null || file.getOriginalFilename() == null) {
             return Response.paramError("上传文件不能为空");
         }
@@ -57,7 +56,36 @@ public class FileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String url = savePath + subPath + "/" + saveFilename;
+        String staticAccessPath = uploadFileProperties.getStaticAccessPath();
+        String staticPath = staticAccessPath.substring(0, staticAccessPath.lastIndexOf("/") + 1);
+        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String url = host + staticPath + subPath + "/" + saveFilename;
         return Response.ok(url);
+    }
+
+    @ApiOperation("删除文件")
+    @ApiImplicitParam(name = "filePath", value = "文件路径", required = true)
+    @DeleteMapping("/delete")
+    public Response<Object> delete(String filePath, HttpServletRequest request) {
+        if (filePath == null || "".equals(filePath)) {
+            return Response.paramError("文件路径不能为空");
+        }
+        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String staticAccessPath = uploadFileProperties.getStaticAccessPath();
+        String staticPath = staticAccessPath.substring(0, staticAccessPath.lastIndexOf("/") + 1);
+        filePath = filePath.replace(host, "");
+        filePath = filePath.substring(filePath.indexOf("/"));
+        filePath = filePath.substring(staticPath.length());
+        String savePath = uploadFileProperties.getUploadFolder();
+        File file = new File(savePath + filePath);
+        //判断目录或者文件是否存在且是否为文件
+        boolean flag = false;
+        if (file.exists() && file.isFile()) {
+            flag = file.delete();
+        }
+        if (!flag) {
+            return Response.serviceError("文件删除失败");
+        }
+        return Response.ok();
     }
 }
