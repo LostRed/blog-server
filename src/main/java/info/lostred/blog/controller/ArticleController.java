@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
-import info.lostred.blog.annotation.LogUser;
+import info.lostred.blog.annotation.EnableUserLog;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Article;
 import info.lostred.blog.service.ArticleService;
@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -34,9 +35,9 @@ public class ArticleController {
     private ArticleService articleService;
 
     @ApiOperation("新增文章")
-    @LogUser("新增文章")
+    @EnableUserLog("新增文章")
     @PutMapping("/")
-    public Response<Article> saveArticle(@RequestBody Article article) {
+    public Response<Article> saveArticle(@Valid @RequestBody Article article) {
         assert article != null;
         article.setUserId(1);// 测试用，生产请注释
         if (!articleService.saveOrUpdate(article)) {
@@ -46,9 +47,9 @@ public class ArticleController {
     }
 
     @ApiOperation("修改文章")
-    @LogUser("修改文章")
+    @EnableUserLog("修改文章")
     @PostMapping("/")
-    public Response<Article> updateArticle(@RequestBody Article article) {
+    public Response<Article> updateArticle(@Valid @RequestBody Article article) {
         if (!articleService.updateById(article)) {
             return Response.serviceError("修改失败");
         }
@@ -66,13 +67,24 @@ public class ArticleController {
 
     @ApiOperation("删除文章")
     @ApiImplicitParam(name = "id", value = "文章id", required = true)
-    @LogUser("删除文章")
+    @EnableUserLog("删除文章")
     @DeleteMapping("/{id}")
     public Response<Article> removeArticle(@PathVariable Integer id) {
         if (!articleService.removeById(id)) {
             return Response.serviceError("删除失败");
         }
         return Response.ok();
+    }
+
+    @ApiOperation("获取文章")
+    @GetMapping("/{id}")
+    @ApiImplicitParam(name = "id", value = "文章id", required = true)
+    public Response<ArticleVo> getArticle(@PathVariable Integer id) {
+        ArticleVo articleVo = articleService.getVoById(id);
+        if (articleVo == null) {
+            return Response.serviceError("未查询到结果");
+        }
+        return Response.ok(articleVo);
     }
 
     @ApiOperation("条件翻页查询文章列表")
@@ -100,16 +112,5 @@ public class ArticleController {
         }
         IPage<ArticleVo> page = articleService.pageVo(new Page<>(current, size), wrapper);
         return Response.ok(page);
-    }
-
-    @ApiOperation("根据id查询文章")
-    @GetMapping("/{id}")
-    @ApiImplicitParam(name = "id", value = "文章id", required = true)
-    public Response<ArticleVo> getArticle(@PathVariable Integer id) {
-        ArticleVo articleVo = articleService.getVoById(id);
-        if (articleVo == null) {
-            return Response.serviceError("未查询到结果");
-        }
-        return Response.ok(articleVo);
     }
 }

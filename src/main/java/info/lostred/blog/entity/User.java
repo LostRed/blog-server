@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,25 +22,27 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="User对象", description="用户")
+@ApiModel(value = "User对象", description = "用户")
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "状态id")
     private Integer statusId;
 
     @ApiModelProperty(value = "用户名")
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(value = "密码")
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     @ApiModelProperty(value = "姓名")
+    @NotNull(message = "姓名不能为空")
     private String name;
 
     @ApiModelProperty(value = "头像")
@@ -47,20 +52,19 @@ public class User implements Serializable {
     private Integer sex;
 
     @ApiModelProperty(value = "邮箱")
+    @Email(message = "邮箱格式错误")
     private String email;
 
     @ApiModelProperty(value = "创建时间")
-      @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime gmtCreate;
 
     @ApiModelProperty(value = "修改时间")
-      @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime gmtModified;
 
     @ApiModelProperty(value = "删除")
-      @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     @TableLogic
     private Integer deleted;
-
-
 }

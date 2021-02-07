@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
-import info.lostred.blog.annotation.LogAdmin;
-import info.lostred.blog.annotation.LogUser;
-import info.lostred.blog.annotation.Validate;
+import info.lostred.blog.annotation.EnableAdminLog;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.User;
 import info.lostred.blog.service.UserService;
@@ -16,10 +14,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -36,34 +33,10 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @ApiOperation("用户登录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true),
-            @ApiImplicitParam(name = "captcha", value = "验证码", required = true)
-    })
-    @Validate
-    @LogUser("登录")
-    @GetMapping("/login")
-    public Response<User> login(@ApiIgnore HttpSession session, String username, String password, String captcha) {
-        if (captcha == null || !captcha.equals(session.getAttribute("captcha"))) {
-            return Response.verifyError("验证码错误");
-        }
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", username);
-        User user = userService.getBaseMapper().selectOne(wrapper);
-        if (user == null || !user.getPassword().equals(password)) {
-            return Response.verifyError("账号或密码错误");
-        }
-        session.setAttribute("user", user);
-        return Response.ok(user);
-    }
-
     @ApiOperation("新增用户")
-    @Validate
-    @LogAdmin("新增用户")
+    @EnableAdminLog("新增用户")
     @PutMapping("/")
-    public Response<User> saveUser(@RequestBody User user) {
+    public Response<User> saveUser(@Valid @RequestBody User user) {
         if (!userService.save(user)) {
             return Response.serviceError("新增失败");
         }
@@ -71,10 +44,9 @@ public class UserController {
     }
 
     @ApiOperation("修改用户")
-    @Validate
-    @LogAdmin("修改用户")
+    @EnableAdminLog("修改用户")
     @PostMapping("/")
-    public Response<User> updateUser(@RequestBody User user) {
+    public Response<User> updateUser(@Valid @RequestBody User user) {
         if (!userService.updateById(user)) {
             return Response.serviceError("修改失败");
         }
@@ -83,7 +55,7 @@ public class UserController {
 
     @ApiOperation("删除用户")
     @ApiImplicitParam(name = "id", value = "用户id", required = true)
-    @LogAdmin("删除用户")
+    @EnableAdminLog("删除用户")
     @DeleteMapping("/{id}")
     public Response<User> removeUser(@PathVariable Integer id) {
         if (!userService.removeById(id)) {
@@ -92,13 +64,31 @@ public class UserController {
         return Response.ok();
     }
 
+    @ApiOperation("获取用户")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @GetMapping("/{id}")
+    public Response<User> getUser(@PathVariable Integer id) {
+        User user = userService.getById(id);
+        return Response.ok(user);
+    }
+
+    @ApiOperation("根据用户名获取用户")
+    @ApiImplicitParam(name = "username", value = "用户名", required = true)
+    @GetMapping("/one")
+    public Response<User> getUser(String username) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        User user = userService.getOne(wrapper);
+        return Response.ok(user);
+    }
+
     @ApiOperation("条件翻页查询用户列表")
-    @GetMapping("/")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名"),
             @ApiImplicitParam(name = "current", value = "当前页", required = true),
             @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
     })
+    @GetMapping("/")
     public Response<IPage<User>> listUser(String username, Long current, Long size) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isNullOrEmpty(username)) {

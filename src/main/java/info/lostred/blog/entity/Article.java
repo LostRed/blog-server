@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -21,7 +22,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "Article对象", description = "文章")
 public class Article implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
@@ -35,18 +35,22 @@ public class Article implements Serializable {
     private Integer userId;
 
     @ApiModelProperty(value = "文章类型id")
+    @NotBlank(message = "文章类型id不能为空")
     private Integer catalogueId;
 
     @ApiModelProperty(value = "标题")
+    @NotBlank(message = "标题不能为空")
     private String title;
 
     @ApiModelProperty(value = "摘要")
+    @NotBlank(message = "摘要不能为空")
     private String precis;
 
     @ApiModelProperty(value = "封面")
     private String cover;
 
     @ApiModelProperty(value = "内容")
+    @NotBlank(message = "内容不能为空")
     private String content;
 
     @ApiModelProperty(value = "热度")
@@ -65,6 +69,4 @@ public class Article implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     @TableLogic
     private Integer deleted;
-
-
 }

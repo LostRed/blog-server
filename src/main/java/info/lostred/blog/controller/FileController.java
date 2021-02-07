@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +33,9 @@ public class FileController {
 
     @ApiOperation("上传文件")
     @PostMapping("/upload")
-    public Response<Object> upload(@RequestPart("file") MultipartFile file, HttpServletRequest request) {
+    public Response<Object> upload(@ApiIgnore HttpServletRequest request, @RequestPart("file") MultipartFile file) {
         if (file == null || file.getOriginalFilename() == null) {
-            return Response.paramError("上传文件不能为空");
+            return Response.paramError("上传文件不能为空!");
         }
         String savePath = uploadFileProperties.getUploadFolder();
         String filename = file.getOriginalFilename();
@@ -66,14 +67,20 @@ public class FileController {
     @ApiOperation("删除文件")
     @ApiImplicitParam(name = "filePath", value = "文件路径", required = true)
     @DeleteMapping("/delete")
-    public Response<Object> delete(String filePath, HttpServletRequest request) {
-        if (filePath == null || "".equals(filePath)) {
-            return Response.paramError("文件路径不能为空");
+    public Response<Object> delete(@ApiIgnore HttpServletRequest request, String filePath) {
+        if (filePath == null) {
+            return Response.paramError("文件路径不能为空!");
         }
         String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        if (!filePath.contains(host)) {
+            return Response.serviceError("文件删除失败!");
+        }
+        filePath = filePath.replace(host, "");
         String staticAccessPath = uploadFileProperties.getStaticAccessPath();
         String staticPath = staticAccessPath.substring(0, staticAccessPath.lastIndexOf("/") + 1);
-        filePath = filePath.replace(host, "");
+        if (!filePath.contains(staticPath)) {
+            return Response.serviceError("文件删除失败!");
+        }
         filePath = filePath.substring(filePath.indexOf("/"));
         filePath = filePath.substring(staticPath.length());
         String savePath = uploadFileProperties.getUploadFolder();
@@ -84,7 +91,7 @@ public class FileController {
             flag = file.delete();
         }
         if (!flag) {
-            return Response.serviceError("文件删除失败");
+            return Response.serviceError("文件删除失败!");
         }
         return Response.ok();
     }

@@ -1,7 +1,7 @@
 package info.lostred.blog.aspect;
 
-import info.lostred.blog.annotation.LogAdmin;
-import info.lostred.blog.annotation.LogUser;
+import info.lostred.blog.annotation.EnableAdminLog;
+import info.lostred.blog.annotation.EnableUserLog;
 import info.lostred.blog.entity.Admin;
 import info.lostred.blog.entity.AdminLog;
 import info.lostred.blog.entity.User;
@@ -13,7 +13,6 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,25 +22,24 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
- * <p>日志切面</p>
+ * <p>启用日志通知</p>
  *
  * @author lostred
  * @since 2021-01-16
  */
 @Aspect
-@Order(1)
 @Component
-public class LogAdvice {
+public class EnableLogAdvice {
     @Resource
     private AdminLogMapper adminLogMapper;
     @Resource
     private UserLogMapper userLogMapper;
 
-    @Pointcut("@annotation(info.lostred.blog.annotation.LogAdmin)")
+    @Pointcut("@annotation(info.lostred.blog.annotation.EnableAdminLog)")
     public void logAdminPointCut() {
     }
 
-    @Pointcut("@annotation(info.lostred.blog.annotation.LogUser)")
+    @Pointcut("@annotation(info.lostred.blog.annotation.EnableUserLog)")
     public void logUserPointCut() {
     }
 
@@ -54,7 +52,7 @@ public class LogAdvice {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         //获取切入点所在的方法
         Method method = signature.getMethod();
-        String event = method.getAnnotation(LogAdmin.class).value();
+        String event = method.getAnnotation(EnableAdminLog.class).value();
         //创建日志
         AdminLog adminLog = new AdminLog();
         adminLog.setEvent(event);
@@ -76,7 +74,7 @@ public class LogAdvice {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         //获取切入点所在的方法
         Method method = signature.getMethod();
-        String event = method.getAnnotation(LogUser.class).value();
+        String event = method.getAnnotation(EnableUserLog.class).value();
         //创建日志
         UserLog userLog = new UserLog();
         userLog.setEvent(event);

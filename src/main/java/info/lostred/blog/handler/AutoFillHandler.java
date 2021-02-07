@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * <p>MyBatis-Plus自动填充</p>
+ * <p>MyBatis-Plus自动填充处理器</p>
  * <p>在数据库插入或更新时，MyBatis-Plus会自动对实体中的某些字段设置默认值</p>
  *
  * @author lostred
