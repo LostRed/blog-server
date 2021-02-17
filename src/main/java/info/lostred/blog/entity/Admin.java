@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -33,10 +34,12 @@ public class Admin implements Serializable {
 
     @ApiModelProperty(value = "用户名")
     @NotBlank(message = "用户名不能为空")
+    @Pattern(regexp = "^[a-zA-Z0-9]{6,8}$", message = "用户名必须为6-8位字母或数字")
     private String username;
 
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
+    @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$", message = "密码必须为6-16位字母和数字的组合")
     private String password;
 
     @ApiModelProperty(value = "创建时间")

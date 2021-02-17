@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 public class ValidateUtils {
     private static final String USERNAME_REGEX = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
     private static final String PASSWORD_REGEX = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$";
-    private static final String EMAIL_REGEX = "^([A-Za-z0-9_\\-\\.])+@([A-Za-z0-9_\\-])+\\.([A-Za-z]{2,4})$";
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,6}$";
 
     /**
      * 用户名校验

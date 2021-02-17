@@ -4,19 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.code.kaptcha.Producer;
 import info.lostred.blog.annotation.EnableAdminLog;
 import info.lostred.blog.annotation.EnableUserLog;
+import info.lostred.blog.dto.LoginDto;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Admin;
 import info.lostred.blog.entity.User;
 import info.lostred.blog.service.AdminService;
 import info.lostred.blog.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
@@ -38,50 +34,79 @@ public class AuthenticationController {
     @Resource
     private Producer producer;
 
+    @ApiOperation("获取登录管理员")
+    @GetMapping("/admin/")
+    public Response<Admin> getLoginAdmin(@ApiIgnore HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null) {
+            return Response.verifyError("未登录!");
+        }
+        return Response.ok(admin);
+    }
+
     @ApiOperation("管理员登录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true),
-            @ApiImplicitParam(name = "captcha", value = "验证码", required = true)
-    })
     @EnableAdminLog("管理员登录")
     @PostMapping("/admin/login")
-    public Response<Admin> adminLogin(@ApiIgnore HttpSession session, String username, String password, String captcha) {
-        if (captcha == null || !captcha.trim().equalsIgnoreCase((String) session.getAttribute("captcha"))) {
+    public Response<Admin> adminLogin(@ApiIgnore HttpSession session, @RequestBody LoginDto loginDto) {
+        if (loginDto.getCaptcha() == null || !loginDto.getCaptcha().trim().equalsIgnoreCase((String) session.getAttribute("captcha"))) {
             return Response.verifyError("验证码错误!");
         }
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", username);
+        wrapper.eq("username", loginDto.getUsername());
         Admin admin = adminService.getOne(wrapper);
-        if (admin == null || !admin.getPassword().equals(password)) {
+        if (admin == null || !admin.getPassword().equals(loginDto.getPassword())) {
             return Response.verifyError("账号或密码错误!");
         }
         session.setAttribute("admin", admin);
         return Response.ok(admin);
     }
 
+    @ApiOperation("管理员退出")
+    @PostMapping("/admin/exit")
+    public Response<Admin> adminExit(@ApiIgnore HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("user");
+        if (admin == null) {
+            session.setAttribute("admin", null);
+        }
+        session.invalidate();
+        return Response.ok(admin);
+    }
+
+    @ApiOperation("获取登录用户")
+    @GetMapping("/user/")
+    public Response<User> getLoginUser(@ApiIgnore HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.verifyError("未登录!");
+        }
+        return Response.ok(user);
+    }
+
     @ApiOperation("用户登录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", required = true),
-            @ApiImplicitParam(name = "captcha", value = "验证码", required = true)
-    })
     @EnableUserLog("用户登录")
-    @GetMapping("/user/login")
-    public Response<User> userLogin(@ApiIgnore HttpSession session, String username, String password, String captcha) {
-        System.err.println(username);
-        System.err.println(password);
-        System.err.println(session.getId() + ": " + captcha);
-        if (captcha == null || !captcha.trim().equalsIgnoreCase((String) session.getAttribute("captcha"))) {
+    @PostMapping("/user/login")
+    public Response<User> userLogin(@ApiIgnore HttpSession session, @RequestBody LoginDto loginDto) {
+        if (loginDto.getCaptcha() == null || !loginDto.getCaptcha().trim().equalsIgnoreCase((String) session.getAttribute("captcha"))) {
             return Response.verifyError("验证码错误!");
         }
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", username);
+        wrapper.eq("username", loginDto.getUsername());
         User user = userService.getOne(wrapper);
-        if (user == null || !user.getPassword().equals(password)) {
+        if (user == null || !user.getPassword().equals(loginDto.getPassword())) {
             return Response.verifyError("账号或密码错误!");
         }
         session.setAttribute("user", user);
+        return Response.ok(user);
+    }
+
+    @ApiOperation("用户退出")
+    @PostMapping("/user/exit")
+    public Response<User> userExit(@ApiIgnore HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            session.setAttribute("user", null);
+        }
+        session.invalidate();
         return Response.ok(user);
     }
 
@@ -89,7 +114,6 @@ public class AuthenticationController {
     @GetMapping("/captcha")
     public void getKaptcha(HttpServletResponse response, @ApiIgnore HttpSession session) {
         String text = producer.createText();
-        System.err.println(session.getId() + ": " + text);
         BufferedImage image = producer.createImage(text);
         session.setAttribute("captcha", text);
         response.setContentType("image/png");
@@ -98,7 +122,6 @@ public class AuthenticationController {
             os = response.getOutputStream();
             ImageIO.write(image, "png", os);
         } catch (IOException e) {
-            System.err.println("响应验证码失败:" + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
