@@ -37,6 +37,10 @@ public class UserController {
     @EnableAdminLog("新增用户")
     @PutMapping("/")
     public Response<User> saveUser(@Valid @RequestBody User user) {
+        if (user == null) {
+            return Response.paramError("请求参数错误");
+        }
+        user.setStatusId(1);
         if (!userService.save(user)) {
             return Response.serviceError("新增失败");
         }

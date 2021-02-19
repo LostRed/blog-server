@@ -8,6 +8,7 @@ import com.mysql.cj.util.StringUtils;
 import info.lostred.blog.annotation.EnableUserLog;
 import info.lostred.blog.dto.Response;
 import info.lostred.blog.entity.Article;
+import info.lostred.blog.entity.User;
 import info.lostred.blog.service.ArticleService;
 import info.lostred.blog.vo.ArticleVo;
 import io.swagger.annotations.Api;
@@ -15,8 +16,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -37,9 +40,15 @@ public class ArticleController {
     @ApiOperation("新增文章")
     @EnableUserLog("新增文章")
     @PutMapping("/")
-    public Response<Article> saveArticle(@Valid @RequestBody Article article) {
-        assert article != null;
-        article.setUserId(1);// 测试用，生产请注释
+    public Response<Article> saveArticle(@Valid @RequestBody Article article, @ApiIgnore HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Response.paramError("未登录");
+        }
+        if (article == null) {
+            return Response.paramError("请求参数错误");
+        }
+        article.setUserId(user.getId());
         if (!articleService.saveOrUpdate(article)) {
             return Response.serviceError("新增失败");
         }

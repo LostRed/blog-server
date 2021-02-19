@@ -39,7 +39,7 @@ public class AuthenticationController {
     public Response<Admin> getLoginAdmin(@ApiIgnore HttpSession session) {
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin == null) {
-            return Response.verifyError("未登录!");
+            return Response.verifyError("未登录");
         }
         return Response.ok(admin);
     }
@@ -77,7 +77,7 @@ public class AuthenticationController {
     public Response<User> getLoginUser(@ApiIgnore HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return Response.verifyError("未登录!");
+            return Response.verifyError("未登录");
         }
         return Response.ok(user);
     }
@@ -94,6 +94,9 @@ public class AuthenticationController {
         User user = userService.getOne(wrapper);
         if (user == null || !user.getPassword().equals(loginDto.getPassword())) {
             return Response.verifyError("账号或密码错误!");
+        }
+        if (user.getStatusId() != 1) {
+            return Response.serviceError("该账号已禁用!");
         }
         session.setAttribute("user", user);
         return Response.ok(user);
