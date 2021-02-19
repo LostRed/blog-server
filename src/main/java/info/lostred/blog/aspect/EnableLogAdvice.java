@@ -56,7 +56,7 @@ public class EnableLogAdvice {
         //创建日志
         AdminLog adminLog = new AdminLog();
         adminLog.setEvent(event);
-        adminLog.setRemark("IP地址：" + request.getLocalAddr());
+        adminLog.setRemark("IP地址：" + request.getRemoteAddr());
         //从session中获取登录的管理员对象
         Admin admin = (Admin) request.getSession().getAttribute("admin");
         if (admin != null) {
