@@ -59,7 +59,7 @@ public class FileController {
         }
         String staticAccessPath = uploadFileProperties.getStaticAccessPath();
         String staticPath = staticAccessPath.substring(0, staticAccessPath.lastIndexOf("/") + 1);
-        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String host = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
         String url = host + staticPath + subPath + "/" + saveFilename;
         return Response.ok(url);
     }
