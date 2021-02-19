@@ -59,7 +59,7 @@ public class FileController {
         }
         String staticAccessPath = uploadFileProperties.getStaticAccessPath();
         String staticPath = staticAccessPath.substring(0, staticAccessPath.lastIndexOf("/") + 1);
-        String host = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
+        String host = uploadFileProperties.getHost();
         String url = host + staticPath + subPath + "/" + saveFilename;
         return Response.ok(url);
     }
@@ -71,7 +71,7 @@ public class FileController {
         if (filePath == null) {
             return Response.paramError("文件路径不能为空!");
         }
-        String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String host = uploadFileProperties.getHost();
         if (!filePath.contains(host)) {
             return Response.serviceError("文件删除失败!");
         }

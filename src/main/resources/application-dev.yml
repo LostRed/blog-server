@@ -35,3 +35,5 @@ file:
   staticAccessPath: /upload/**
   # 文件上传目录
   uploadFolder: C:/upload/
+  # 文件主机
+  host: http://localhost:8080
