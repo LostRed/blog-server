@@ -8,11 +8,6 @@
         status.name as status
         from user
         left join status on user.status_id = status.id
-        <include refid="where"/>
+        ${ew.customSqlSegment}
     </select>
-    <sql id="where">
-        <if test="ew != null">
-            ${ew.customSqlSegment}
-        </if>
-    </sql>
 </mapper>

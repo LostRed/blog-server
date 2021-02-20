@@ -8,11 +8,6 @@
         status.name as status
         from admin
         left join status on admin.status_id = status.id
-        <include refid="where"/>
+        ${ew.customSqlSegment}
     </select>
-    <sql id="where">
-        <if test="ew != null">
-            ${ew.customSqlSegment}
-        </if>
-    </sql>
 </mapper>
