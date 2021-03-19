@@ -28,6 +28,7 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为0)
   # 别名
   type-aliases-package: info.lostred.blog.entity,info.lostred.blog.vo
+  mapper-locations:
 
 # 文件上传
 file:
