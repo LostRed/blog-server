@@ -16,7 +16,7 @@ spring:
 # 配置MyBatis-Plus
 mybatis-plus:
   configuration:
-    #开启驼峰命名
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
   # 逻辑删除
   global-config:
