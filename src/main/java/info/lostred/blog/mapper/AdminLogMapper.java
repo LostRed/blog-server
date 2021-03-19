@@ -1,5 +1,6 @@
 package info.lostred.blog.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import info.lostred.blog.entity.AdminLog;
 import org.apache.ibatis.annotations.Mapper;
