@@ -1,7 +1,7 @@
 # 开发环境的配置文件
 # 应用服务WEB访问端口
 server:
-  port: 8080
+  port: 8000
 # debug
 debug: false
 # 配置Spring
@@ -16,7 +16,7 @@ spring:
 # 配置MyBatis-Plus
 mybatis-plus:
   configuration:
-    #开启驼峰命名
+    # 开启驼峰命名
     map-underscore-to-camel-case: true
   # 逻辑删除
   global-config:

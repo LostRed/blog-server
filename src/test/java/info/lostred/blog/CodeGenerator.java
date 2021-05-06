@@ -63,7 +63,7 @@ public class CodeGenerator {
         StrategyConfig sc = new StrategyConfig();
         sc.setTablePrefix("t");
         //设置要映射的表名，参数为数据库表名，每张表用,分隔
-        sc.setInclude( "admin", "admin_log", "article", "catalogue", "status", "user","user_log");
+        sc.setInclude("admin", "admin_log", "article", "catalogue", "status", "user", "user_log");
         //设置下划线转驼峰
         sc.setNaming(NamingStrategy.underline_to_camel);
         sc.setColumnNaming(NamingStrategy.underline_to_camel);
