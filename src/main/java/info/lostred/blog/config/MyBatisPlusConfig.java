@@ -3,7 +3,6 @@ package info.lostred.blog.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020-12-23
  */
 @Configuration
-@MapperScan("com.great.incubator.backend.mapper")
 public class MyBatisPlusConfig {
     /**
      * <p>配置Mybatis-Plus拦截器，并加入Spring容器</p>
