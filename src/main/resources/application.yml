@@ -21,4 +21,4 @@ logging:
       #单个日志文件最大容量
       max-file-size: 100MB
       #日志文件总量
-      total-size-cap: 30GB
+      total-size-cap: 1GB
