@@ -9,4 +9,16 @@ spring:
 
 # 配置日志
 logging:
-  config: classpath:logback-dev.xml
+  file:
+    #日志路径，配置前需要确认是否有操作该目录权限
+    path: /home/lostred/blog-server/logs/
+  level:
+    root: info
+  logback:
+    rollingpolicy:
+      #日志保留天数
+      max-history: 30
+      #单个日志文件最大容量
+      max-file-size: 100MB
+      #日志文件总量
+      total-size-cap: 30GB
