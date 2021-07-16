@@ -2,8 +2,7 @@
 # 应用服务WEB访问端口
 server:
   port: 8080
-# debug
-debug: true
+
 # 配置Spring
 spring:
   # 数据源
@@ -19,7 +18,7 @@ mybatis-plus:
     # 开启驼峰命名
     map-underscore-to-camel-case: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   # 逻辑删除
   global-config:
     db-config:

@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     @ApiOperation("删除管理员")
-    @ApiImplicitParam(name = "id", value = "管理员id", required = true)
+    @ApiImplicitParam(name = "id", value = "管理员id", dataTypeClass = Integer.class, required = true)
     @EnableAdminLog("删除管理员")
     @DeleteMapping("/{id}")
     public Response<Admin> removeAdmin(@PathVariable Integer id) {
@@ -65,7 +65,7 @@ public class AdminController {
     }
 
     @ApiOperation("获取管理员")
-    @ApiImplicitParam(name = "id", value = "管理员id", required = true)
+    @ApiImplicitParam(name = "id", value = "管理员id", dataTypeClass = Integer.class, required = true)
     @GetMapping("/{id}")
     public Response<Admin> getAdmin(@PathVariable Integer id) {
         Admin admin = adminService.getById(id);
@@ -73,7 +73,7 @@ public class AdminController {
     }
 
     @ApiOperation("根据用户名获取管理员")
-    @ApiImplicitParam(name = "username", value = "用户名", required = true)
+    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, required = true)
     @GetMapping("/one")
     public Response<Admin> getAdmin(String username) {
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();
@@ -85,9 +85,9 @@ public class AdminController {
     @ApiOperation("条件翻页查询管理员列表")
     @GetMapping("/")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名"),
-            @ApiImplicitParam(name = "current", value = "当前页", required = true),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
+            @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "current", value = "当前页", dataTypeClass = Long.class, required = true),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", dataTypeClass = Long.class, required = true)
     })
     public Response<IPage<Admin>> listAdmin(String username, Long current, Long size) {
         QueryWrapper<Admin> wrapper = new QueryWrapper<>();

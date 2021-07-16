@@ -65,7 +65,7 @@ public class FileController {
     }
 
     @ApiOperation("删除文件")
-    @ApiImplicitParam(name = "filePath", value = "文件路径", required = true)
+    @ApiImplicitParam(name = "filePath", value = "文件路径", dataTypeClass = String.class, required = true)
     @DeleteMapping("/delete")
     public Response<Object> delete(@ApiIgnore HttpServletRequest request, String filePath) {
         if (filePath == null) {

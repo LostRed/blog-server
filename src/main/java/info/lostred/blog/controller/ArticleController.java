@@ -66,6 +66,7 @@ public class ArticleController {
     }
 
     @ApiOperation("浏览文章")
+    @ApiImplicitParam(name = "id", value = "文章id", dataTypeClass = Integer.class, required = true)
     @PostMapping("/{id}")
     public Response<Article> browseArticle(@PathVariable Integer id) {
         if (!articleService.updateHot(id)) {
@@ -75,7 +76,7 @@ public class ArticleController {
     }
 
     @ApiOperation("删除文章")
-    @ApiImplicitParam(name = "id", value = "文章id", required = true)
+    @ApiImplicitParam(name = "id", value = "文章id", dataTypeClass = Integer.class, required = true)
     @EnableUserLog("删除文章")
     @DeleteMapping("/{id}")
     public Response<Article> removeArticle(@PathVariable Integer id) {
@@ -87,7 +88,7 @@ public class ArticleController {
 
     @ApiOperation("获取文章")
     @GetMapping("/{id}")
-    @ApiImplicitParam(name = "id", value = "文章id", required = true)
+    @ApiImplicitParam(name = "id", value = "文章id", dataTypeClass = Integer.class, required = true)
     public Response<ArticleVo> getArticle(@PathVariable Integer id) {
         ArticleVo articleVo = articleService.getVoById(id);
         if (articleVo == null) {
@@ -99,11 +100,11 @@ public class ArticleController {
     @ApiOperation("条件翻页查询文章列表")
     @GetMapping("/")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "文章标题"),
-            @ApiImplicitParam(name = "author", value = "作者"),
-            @ApiImplicitParam(name = "column", value = "排序字段"),
-            @ApiImplicitParam(name = "current", value = "当前页", required = true),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
+            @ApiImplicitParam(name = "title", value = "文章标题", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "author", value = "作者", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "column", value = "排序字段", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "current", value = "当前页", dataTypeClass = Long.class, required = true),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", dataTypeClass = Long.class, required = true)
     })
     public Response<IPage<ArticleVo>> listArticle(String title, String author, String column, Long current, Long size) {
         QueryWrapper<ArticleVo> wrapper = new QueryWrapper<>();

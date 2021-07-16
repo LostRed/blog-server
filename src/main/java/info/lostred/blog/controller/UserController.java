@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @ApiOperation("删除用户")
-    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @ApiImplicitParam(name = "id", value = "用户id", dataTypeClass = Integer.class, required = true)
     @EnableAdminLog("删除用户")
     @DeleteMapping("/{id}")
     public Response<User> removeUser(@PathVariable Integer id) {
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @ApiOperation("获取用户")
-    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @ApiImplicitParam(name = "id", value = "用户id", dataTypeClass = Integer.class, required = true)
     @GetMapping("/{id}")
     public Response<User> getUser(@PathVariable Integer id) {
         User user = userService.getById(id);
@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @ApiOperation("根据用户名获取用户")
-    @ApiImplicitParam(name = "username", value = "用户名", required = true)
+    @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class, required = true)
     @GetMapping("/one")
     public Response<User> getUser(String username) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -88,9 +88,9 @@ public class UserController {
 
     @ApiOperation("条件翻页查询用户列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名"),
-            @ApiImplicitParam(name = "current", value = "当前页", required = true),
-            @ApiImplicitParam(name = "size", value = "每页显示条数", required = true)
+            @ApiImplicitParam(name = "username", value = "用户名", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "current", value = "当前页", dataTypeClass = Long.class, required = true),
+            @ApiImplicitParam(name = "size", value = "每页显示条数", dataTypeClass = Long.class, required = true)
     })
     @GetMapping("/")
     public Response<IPage<User>> listUser(String username, Long current, Long size) {

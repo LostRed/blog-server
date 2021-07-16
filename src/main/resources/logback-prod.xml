@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+
+    <springProperty scope="context" name="logs-home" source="logging.file.path" defaultValue="./logs"/>
+    <springProperty scope="context" name="app-name" source="spring.application.name" defaultValue="hsa-pms-drg"/>
+    <springProperty scope="context" name="root-level" source="logging.level.root" defaultValue="info"/>
+    <springProperty scope="context" name="max-history" source="logging.file.logback.rollingpolicy.max-history"
+                    defaultValue="30"/>
+    <springProperty scope="context" name="max-file-size" source="logging.file.logback.rollingpolicy.max-file-size"
+                    defaultValue="100MB"/>
+    <springProperty scope="context" name="total-size-cap" source="logging.file.logback.rollingpolicy.total-size-cap"
+                    defaultValue="10GB"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%t] %color(%-5p) %color(%-40.40logger{39}){cyan} : %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%message：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%t] %-5p %-40.40logger{39} : %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>${logs-home}/${app-name}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>${max-history}</maxHistory>
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="info.lostred.blog" level="debug"/>
+    <logger name="org.apache.ibatis"/>
+    <logger name="java.sql.Connection" level="debug"/>
+    <logger name="java.sql.Statement" level="debug"/>
+    <logger name="java.sql.PreparedStatement" level="debug"/>
+    <logger name="java.sql.ResultSet" level="debug"/>
+
+    <root level="${root-level}">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+</configuration>

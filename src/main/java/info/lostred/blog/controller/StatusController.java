@@ -33,7 +33,7 @@ public class StatusController {
 
     @ApiOperation("条件查询状态列表")
     @GetMapping("/")
-    @ApiImplicitParam(name = "type", value = "状态类型")
+    @ApiImplicitParam(name = "type", value = "状态类型", dataTypeClass = String.class)
     public Response<List<Status>> listCatalogue(String type) {
         QueryWrapper<Status> wrapper = new QueryWrapper<>();
         if (!StringUtils.isNullOrEmpty(type)) {

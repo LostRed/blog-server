@@ -6,3 +6,7 @@ spring:
   # 选择配置
   profiles:
     active: dev
+
+# 配置日志
+logging:
+  config: classpath:logback-dev.xml

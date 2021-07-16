@@ -52,7 +52,7 @@ public class CatalogueController {
     }
 
     @ApiOperation("删除文章类型")
-    @ApiImplicitParam(name = "id", value = "文章类型id", required = true)
+    @ApiImplicitParam(name = "id", value = "文章类型id", dataTypeClass = Integer.class, required = true)
     @EnableAdminLog("删除文章类型")
     @DeleteMapping("/{id}")
     public Response<Catalogue> removeCatalogue(@PathVariable Integer id) {
@@ -64,7 +64,7 @@ public class CatalogueController {
 
     @ApiOperation("条件查询文章类型列表")
     @GetMapping("/")
-    @ApiImplicitParam(name = "name", value = "名称")
+    @ApiImplicitParam(name = "name", value = "名称", dataTypeClass = String.class)
     public Response<List<Catalogue>> listCatalogue(String name) {
         QueryWrapper<Catalogue> wrapper = new QueryWrapper<>();
         if (!StringUtils.isNullOrEmpty(name)) {
